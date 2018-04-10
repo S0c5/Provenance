@@ -271,13 +271,19 @@ static void MupenInitiateControllers (CONTROL_INFO ControlInfo)
             GCExtendedGamepad *gamepad     = [controller extendedGamepad];
             GCControllerDirectionPad *dpad = [gamepad dpad];
             
-            xAxis[playerIndex] = gamepad.leftThumbstick.xAxis.value * N64_ANALOG_MAX;
-            yAxis[playerIndex] = gamepad.leftThumbstick.yAxis.value * N64_ANALOG_MAX;
             
-            padData[playerIndex][PVN64ButtonDPadUp] = dpad.up.isPressed;
-            padData[playerIndex][PVN64ButtonDPadDown] = dpad.down.isPressed;
-            padData[playerIndex][PVN64ButtonDPadLeft] = dpad.left.isPressed;
-            padData[playerIndex][PVN64ButtonDPadRight] = dpad.right.isPressed;
+            //xAxis[playerIndex] = gamepad.leftThumbstick.xAxis.value * N64_ANALOG_MAX;
+            //yAxis[playerIndex] = gamepad.leftThumbstick.yAxis.value * N64_ANALOG_MAX;
+            
+            
+            xAxis[playerIndex] = (dpad.left.value > 0.5 ? -N64_ANALOG_MAX : 0) + (dpad.right.value > 0.5 ? N64_ANALOG_MAX : 0);
+            yAxis[playerIndex] = (dpad.down.value > 0.5 ? -N64_ANALOG_MAX : 0) + (dpad.up.value > 0.5 ? N64_ANALOG_MAX : 0);
+            
+            
+            //padData[playerIndex][PVN64ButtonDPadUp] = dpad.up.isPressed;
+            //padData[playerIndex][PVN64ButtonDPadDown] = dpad.down.isPressed;
+            //padData[playerIndex][PVN64ButtonDPadLeft] = dpad.left.isPressed;
+            //padData[playerIndex][PVN64ButtonDPadRight] = dpad.right.isPressed;
             
             padData[playerIndex][PVN64ButtonA] = gamepad.buttonA.isPressed || gamepad.buttonY.isPressed;
             padData[playerIndex][PVN64ButtonB] = gamepad.buttonX.isPressed || gamepad.buttonB.isPressed;
